@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import {
   loadCaptchaEnginge,
   LoadCanvasTemplate,
@@ -7,12 +7,15 @@ import {
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import loginImg from "../../assets/others/authentication2.png";
+import { AuthContext } from "../../provider/AuthProvider";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const captchaRef = useRef(null);
   const [disabled, setDisabled] = useState(true);
   const [captchaValidated, setCaptchaValidated] = useState(false);
 
+  const { signIn } = useContext(AuthContext);
   useEffect(() => {
     loadCaptchaEnginge(6);
   }, []);
@@ -23,6 +26,10 @@ const Login = () => {
     const email = form.email.value;
     const password = form.password.value;
     console.log(email, password);
+    signIn(email, password).then((result) => {
+      const user = result.user;
+      console.log(user);
+    });
 
     // Check if captcha has been validated before allowing login
     if (captchaValidated) {
@@ -88,43 +95,50 @@ const Login = () => {
                 </div>
               ) : (
                 // Display the login form when captcha is validated
-                <form onSubmit={handleLogin} className="card-body">
-                  <div className="form-control">
-                    <label className="label">
-                      <span className="label-text">Email</span>
-                    </label>
-                    <input
-                      type="email"
-                      name="email"
-                      placeholder="email"
-                      className="input input-bordered"
-                    />
-                  </div>
-                  <div className="form-control">
-                    <label className="label">
-                      <span className="label-text">Password</span>
-                    </label>
-                    <input
-                      type="password"
-                      name="password"
-                      placeholder="password"
-                      className="input input-bordered"
-                    />
-                    <label className="label">
-                      <a href="#" className="label-text-alt link link-hover">
-                        Forgot password?
-                      </a>
-                    </label>
-                  </div>
-                  <div className="form-control mt-6">
-                    <input
-                      disabled={disabled}
-                      className="btn btn-primary"
-                      type="submit"
-                      value="Login"
-                    />
-                  </div>
-                </form>
+                <div>
+                  <form onSubmit={handleLogin} className="card-body">
+                    <div className="form-control">
+                      <label className="label">
+                        <span className="label-text">Email</span>
+                      </label>
+                      <input
+                        type="email"
+                        name="email"
+                        placeholder="email"
+                        className="input input-bordered"
+                      />
+                    </div>
+                    <div className="form-control">
+                      <label className="label">
+                        <span className="label-text">Password</span>
+                      </label>
+                      <input
+                        type="password"
+                        name="password"
+                        placeholder="password"
+                        className="input input-bordered"
+                      />
+                      <label className="label">
+                        <a href="#" className="label-text-alt link link-hover">
+                          Forgot password?
+                        </a>
+                      </label>
+                    </div>
+                    <div className="form-control mt-6">
+                      <input
+                        disabled={disabled}
+                        className="btn btn-primary"
+                        type="submit"
+                        value="Login"
+                      />
+                    </div>
+                  </form>
+                  <p>
+                    <small>
+                      New Here? <Link to="/signup">Create an account</Link>
+                    </small>
+                  </p>
+                </div>
               )}
             </div>
           </div>

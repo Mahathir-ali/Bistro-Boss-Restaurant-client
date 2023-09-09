@@ -5,7 +5,8 @@ import Navbar from "../pages/shared/Navbar/Navbar";
 const Main = () => {
   // Hiding navbar and footer from Login page
   const location = useLocation();
-  const noNavFooter = location.pathname.includes("login");
+  const noNavFooter =
+    location.pathname.includes("login") || location.pathname.includes("signup");
   //
   return (
     <div>
