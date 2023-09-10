@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../provider/AuthProvider";
 
 const SignUp = () => {
-  const { logOut } = useContext(AuthContext);
+  const { createUser } = useContext(AuthContext);
 
   const handleSignUp = (event) => {
     event.preventDefault();
@@ -13,6 +13,11 @@ const SignUp = () => {
     const email = form.email.value;
     const password = form.password.value;
     console.log(email, password, name);
+    // users registering for this site
+    createUser(email, password).then((result) => {
+      const user = result.user;
+      console.log(user);
+    });
   };
   return (
     <div>
@@ -68,13 +73,13 @@ const SignUp = () => {
                     // disabled={disabled}
                     className="btn btn-primary"
                     type="submit"
-                    value="Login"
+                    value="Register"
                   />
                 </div>
               </form>
-              <p>
+              <p className="text-center p-4 text-blue-700">
                 <small>
-                  New Here? <Link to="/signup">Create an account</Link>
+                  Already have an account? <Link to="/login">Log in</Link>
                 </small>
               </p>
             </div>

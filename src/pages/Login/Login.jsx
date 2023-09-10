@@ -133,7 +133,7 @@ const Login = () => {
                       />
                     </div>
                   </form>
-                  <p>
+                  <p className="text-center p-4">
                     <small>
                       New Here? <Link to="/signup">Create an account</Link>
                     </small>
