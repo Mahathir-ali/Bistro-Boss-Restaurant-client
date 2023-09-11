@@ -8,12 +8,20 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import loginImg from "../../assets/others/authentication2.png";
 import { AuthContext } from "../../provider/AuthProvider";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const Login = () => {
   const captchaRef = useRef(null);
   const [disabled, setDisabled] = useState(true);
   const [captchaValidated, setCaptchaValidated] = useState(false);
+  // navigating user start
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/";
+  console.log(from);
+  // navigating user end
 
   const { signIn } = useContext(AuthContext);
   useEffect(() => {
@@ -29,16 +37,25 @@ const Login = () => {
     signIn(email, password).then((result) => {
       const user = result.user;
       console.log(user);
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Log in Successful",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      // navigating user from login page to home page
+      navigate(from, { replace: true });
     });
 
     // Check if captcha has been validated before allowing login
-    if (captchaValidated) {
-      // Perform login logic here
-      // If login is successful, navigate to the next page or update the UI accordingly
-    } else {
-      // Display an error message or alert to indicate that the captcha needs to be validated first
-      alert("Please validate the captcha before logging in.");
-    }
+    // if (captchaValidated) {
+    //   // Perform login logic here
+    //   // If login is successful, navigate to the next page or update the UI accordingly
+    // } else {
+    //   // Display an error message or alert to indicate that the captcha needs to be validated first
+    //   alert("Please validate the captcha before logging in.");
+    // }
   };
 
   const handleValidateCaptcha = () => {
@@ -47,6 +64,13 @@ const Login = () => {
 
     if (validateCaptcha(userCaptchaValue)) {
       setDisabled(false);
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Your work has been saved",
+        showConfirmButton: false,
+        timer: 1500,
+      });
       setCaptchaValidated(true); // Captcha is validated, allow login
     } else {
       setDisabled(true);
@@ -60,13 +84,17 @@ const Login = () => {
           </p>
         ),
       });
-
+      // clearing the input field when captcha is wrong
+      captchaRef.current.value = "";
       setCaptchaValidated(false); // Captcha validation failed, prevent login
     }
   };
 
   return (
     <div>
+      <Helmet>
+        <title>Bistro Boss | Sign In</title>
+      </Helmet>
       <div className="hero min-h-screen bg-base-200">
         <h1 className="text-5xl text-bold -mt-[600px] ">Log in</h1>
 
