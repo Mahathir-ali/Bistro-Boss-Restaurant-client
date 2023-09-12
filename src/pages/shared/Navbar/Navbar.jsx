@@ -31,7 +31,7 @@ const Navbar = () => {
         <Link to="/secret">Secret</Link>
       </li>
       <li>
-        <Link>
+        <Link to="/dashboard/mycart">
           {/* <button className="btn"> */}
           <RiShoppingCartFill className="text-xl" />
           <div className="badge badge-secondary lg:-ml-2 sm:mr-36">
@@ -93,7 +93,7 @@ const Navbar = () => {
           <a className="btn btn-ghost normal-case text-xl">Bistro BOSS</a>
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1 active:text-white">
+          <ul className="menu  menu-horizontal  px-1 active:text-white">
             {navOptions}
           </ul>
         </div>
