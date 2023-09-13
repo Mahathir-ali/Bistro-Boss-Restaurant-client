@@ -10,6 +10,7 @@ import loginImg from "../../assets/others/authentication2.png";
 import { AuthContext } from "../../provider/AuthProvider";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import SocialLogin from "../shared/SocialLogin/SocialLogin";
 
 const Login = () => {
   const captchaRef = useRef(null);
@@ -166,6 +167,9 @@ const Login = () => {
                       New Here? <Link to="/signup">Create an account</Link>
                     </small>
                   </p>
+                  <div>
+                    <SocialLogin />
+                  </div>
                 </div>
               )}
             </div>

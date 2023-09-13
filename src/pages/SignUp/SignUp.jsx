@@ -17,26 +17,38 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   const onSubmit = (data) => {
-    console.log(data);
     // create user
     createUser(data.email, data.password).then((result) => {
       const loggedUser = result.user;
       console.log(loggedUser);
       updateUserProfile(data.name, data.photoURL)
         .then(() => {
-          console.log("user profile updated");
-          // reset the sign up from using react-hook-form reset function
-          reset();
-          // Showing toast that user created successful
-          Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "Profile Created Successfully",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-          // after sign up navigating to home page
-          navigate("/");
+          // Just sending user name and email to backend
+          const saveUser = { name: data.name, email: data.email };
+          fetch("http://localhost:5000/users", {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+            },
+            body: JSON.stringify(saveUser),
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              if (data.insertedId) {
+                // reset the sign up from using react-hook-form reset function
+                reset();
+                // Showing toast that user created successful
+                Swal.fire({
+                  position: "center",
+                  icon: "success",
+                  title: "Profile Created Successfully",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+                // after sign up navigating to home page
+                navigate("/");
+              }
+            });
         })
         .catch((error) => console.log(error));
     });
@@ -154,7 +166,10 @@ const SignUp = () => {
               </form>
               <p className="text-center p-4 text-blue-700">
                 <small>
-                  Already have an account? <Link to="/login">Log in</Link>
+                  Already have an account?{" "}
+                  <Link className="underline" to="/login">
+                    Log in
+                  </Link>
                 </small>
               </p>
             </div>
