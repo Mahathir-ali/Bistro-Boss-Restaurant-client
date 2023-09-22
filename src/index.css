@@ -10,3 +10,8 @@
 }
 
 
+li a:hover{
+    color: whitesmoke !important;
+    background-color: transparent !important; 
+
+}

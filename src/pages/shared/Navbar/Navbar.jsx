@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { AuthContext } from "../../../provider/AuthProvider";
 import { RiShoppingCartFill } from "react-icons/ri";
 import useCart from "../../../hooks/useCart";
@@ -18,27 +18,27 @@ const Navbar = () => {
   const navOptions = (
     <>
       <li>
-        <Link to="/">Home</Link>
+        <NavLink to="/">Home</NavLink>
       </li>
 
       <li>
-        <Link to="/menu">Menu</Link>
+        <NavLink to="/menu">Menu</NavLink>
       </li>
       <li>
-        <Link to="/order/salad">Order</Link>
+        <NavLink to="/order/salad">Order</NavLink>
       </li>
       <li>
-        <Link to="/secret">Secret</Link>
+        <NavLink to="/secret">Secret</NavLink>
       </li>
       <li>
-        <Link to="/dashboard/mycart">
+        <NavLink to="/dashboard/mycart">
           {/* <button className="btn"> */}
           <RiShoppingCartFill className="text-xl" />
           <div className="badge badge-secondary lg:-ml-2 sm:mr-36">
             {cart?.length || 0}
           </div>
           {/* </button> */}
-        </Link>
+        </NavLink>
       </li>
 
       {user ? (
@@ -55,7 +55,7 @@ const Navbar = () => {
       ) : (
         <>
           <li>
-            <Link to="/login">Login</Link>
+            <NavLink to="/login">Login</NavLink>
           </li>
         </>
       )}
